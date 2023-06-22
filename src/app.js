@@ -10,12 +10,17 @@ const users = [];
 
 app.post("/sign-up", (req, res) => {
     let {username, avatar} = req.params
+
+    
     const user = {        
             username: username, 
             avatar: avatar        
     }
     users.push(user);
     res.send(user)
+
+
+
 })
 
 app.post("/tweets", (req, res) => {
@@ -31,8 +36,9 @@ app.post("/tweets", (req, res) => {
         
     }
 
-
-
+    if (!newUser.username|| !newUser.avatar || typeof newUser.username !== "string" || typeof newUser.avatar !== "string") {
+		return res.status(400).send("Todos os campos são obrigatórios!")
+	}
 
 
     tweets.push(tweet);
@@ -46,7 +52,7 @@ app.post("/tweets", (req, res) => {
 app.get("/tweets", (req, res) => {
 
     if (tweets.length === 0) {
-        res.send([])
+        return res.send([])
     }
 
     if( tweets.length > 0 && tweets.length < 10) {
@@ -55,9 +61,7 @@ app.get("/tweets", (req, res) => {
             avatar: tweet.avatar,
             tweet: tweet.text
         }))
-        res.send(tweets)        
-        
-        res.send()
+        return res.send(tweets)        
     }
 
     if( tweets.length > 10) {
@@ -66,7 +70,7 @@ app.get("/tweets", (req, res) => {
         avatar: tweet.avatar,
         tweet: tweet.text
     }))
-    res.send(tweets)    
+    return res.send(tweets)    
 }          
 })
 //.slice(-10)
