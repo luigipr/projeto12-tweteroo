@@ -36,13 +36,12 @@ app.post("/tweets", (req, res) => {
         
     }
 
-    if (!newUser.username|| !newUser.avatar || typeof newUser.username !== "string" || typeof newUser.avatar !== "string") {
+    if (!user.username|| !user.avatar || typeof user.username !== "string" || typeof user.avatar !== "string") {
 		return res.status(400).send("Todos os campos são obrigatórios!")
 	}
 
-
     tweets.push(tweet);
-    res.send(tweet)
+    return res.send(tweet)
 
 
 })
@@ -77,6 +76,9 @@ app.get("/tweets", (req, res) => {
 
 
 app.get("/tweets/:username", (req, res) => {
+
+
+
 	res.send(tweets.filter((tweet) => req.params.username === tweet.username))
 })
 
