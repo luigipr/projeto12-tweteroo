@@ -30,8 +30,15 @@ app.post("/tweets", (req, res) => {
             tweet: message
         
     }
+
+
+
+
+
     tweets.push(tweet);
     res.send(tweet)
+
+
 })
 
 
@@ -39,16 +46,36 @@ app.post("/tweets", (req, res) => {
 app.get("/tweets", (req, res) => {
 
     if (tweets.length === 0) {
-        res.send('Não há tweets para serem exibidos neste momento')
+        res.send([])
     }
-    tweets.map( tweet => ({
+
+    if( tweets.length > 0 && tweets.length < 10) {
+        tweets.reverse().map( tweet => ({
+            username: tweet.username,
+            avatar: tweet.avatar,
+            tweet: tweet.text
+        }))
+        res.send(tweets)        
+        
+        res.send()
+    }
+
+    if( tweets.length > 10) {
+    tweets.reverse().slice(0,11).map( tweet => ({
         username: tweet.username,
         avatar: tweet.avatar,
         tweet: tweet.text
     }))
-    res.send(tweets)              
+    res.send(tweets)    
+}          
 })
 //.slice(-10)
+
+
+app.get("/tweets/:username", (req, res) => {
+	res.send(tweets.filter((tweet) => req.params.username === tweet.username))
+})
+
 
 const PORT = 5000
 app.listen(PORT, console.log(`Servidor rodando na porta ${PORT}`))
