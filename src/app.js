@@ -12,7 +12,7 @@ const users = [];
 app.post("/sign-up", (req, res) => {
     let {username, avatar} = req.body;
 
-    if (!newUser.username || !newUser.avatar || typeof newUser.username !== "string" || typeof newUser.avatar !== "string") {
+    if (!newUser.username || !newUser.avatar) {
 		
         return res.status(400).send("Todos os campos são obrigatórios!")
 	}
@@ -22,14 +22,14 @@ app.post("/sign-up", (req, res) => {
         avatar: avatar        
     }
     users.push(user);
-    res.status(201).send("Sucesso")
+    res.status(201).send("OK")
 
 })
 
 app.post("/tweets", (req, res) => {
     let {username , message} = req.body;
 
-    if (!tweet.username || !tweet.tweet || typeof tweet.tweet !== "string") {
+    if (!tweet.username || !tweet.tweet) {
         return res.status(400).send("Todos os campos são obrigatórios!")
     }
 
@@ -44,7 +44,7 @@ app.post("/tweets", (req, res) => {
     }
 
     tweets.push(tweet);
-    res.status(201).send("Sucesso!")
+    res.status(201).send("OK")
 })
 
 app.get("/tweets", (req, res) => {
@@ -53,7 +53,7 @@ app.get("/tweets", (req, res) => {
         return res.status(200).send([])
     }
 
-    if( tweets.length > 0 && tweets.length < 10) {
+    if(tweets.length <= 10) {
         tweetsList = tweets.reverse().map( tweet => ({
             username: tweet.username,
             avatar: tweet.avatar,
@@ -63,7 +63,7 @@ app.get("/tweets", (req, res) => {
     }
 
     if( tweets.length > 10) {
-    const tweetsList = tweets.reverse().slice(0,11).map( tweet => ({
+    const tweetsList = tweets.reverse().slice(0,10).map( tweet => ({
         username: tweet.username,
         avatar: tweet.avatar,
         tweet: tweet.text
