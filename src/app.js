@@ -86,8 +86,11 @@ app.get("/tweets", (req, res) => {
 
 
 app.get("/tweets/:username", (req, res) => {
-  
-    const userTweets = tweets.filter((tweet) => req.params.username === tweet.username);
+    const userTweets = []
+    
+    if (users.length > 1) {
+        userTweets = tweets.filter((tweet) => req.params.username === tweet.username);
+    }
 
     if (userTweets.length === 0) {
         return res.status(200).send([])
