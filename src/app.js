@@ -11,6 +11,11 @@ const users = [];
 
 app.post("/sign-up", (req, res) => {
     let {username, avatar} = req.body;
+
+    if (!newUser.username || !newUser.avatar || typeof newUser.username !== "string" || typeof newUser.avatar !== "string") {
+		
+        return res.status(400).send("Todos os campos são obrigatórios!")
+	}
     
     const user = {        
         username: username, 
@@ -24,6 +29,10 @@ app.post("/sign-up", (req, res) => {
 app.post("/tweets", (req, res) => {
     let {username , message} = req.body;
 
+    if (!tweet.username || !tweet.tweet || typeof tweet.tweet !== "string") {
+        return res.status(400).send("Todos os campos são obrigatórios!")
+    }
+
     const user = users.find( (user) => user.username === username)
 
     const tweet = {
@@ -34,19 +43,14 @@ app.post("/tweets", (req, res) => {
         
     }
 
-    if (!tweet.username || !tweet.tweet || typeof tweet.tweet !== "string") {
-        return res.status(400).send("Todos os campos são obrigatórios!")
-    }
-
-
     tweets.push(tweet);
-    return res.send("Sucesso!")
+    res.status(201).send("Sucesso!")
 })
 
 app.get("/tweets", (req, res) => {
 
     if (tweets.length === 0) {
-        return res.send([])
+        return res.status(200).send([])
     }
 
     if( tweets.length > 0 && tweets.length < 10) {
@@ -55,7 +59,7 @@ app.get("/tweets", (req, res) => {
             avatar: tweet.avatar,
             tweet: tweet.text
         }))
-        return res.send(tweetsList)        
+        return res.status(200).send(tweetsList)        
     }
 
     if( tweets.length > 10) {
@@ -64,7 +68,7 @@ app.get("/tweets", (req, res) => {
         avatar: tweet.avatar,
         tweet: tweet.text
     }))
-    return res.send(tweetsList)    
+    return res.status(200).send(tweetsList)    
     }          
 })
 //.slice(-10)
@@ -74,7 +78,7 @@ app.get("/tweets/:username", (req, res) => {
 
     const userTweets = tweets.filter((tweet) => req.params.username === tweet.username);
 
-	res.send("Sucesso")
+	res.status(200).send("Sucesso")
 })
 
 
