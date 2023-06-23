@@ -27,7 +27,10 @@ app.post("/sign-up", (req, res) => {
 })
 
 app.post("/tweets", (req, res) => {
-    let {username , message} = req.body;
+    const {username, tweet} = req.body;
+
+    console.log(username)
+    console.log(tweet)
 
     if (users.length === 0) {
 		return res.status(401).send({
@@ -39,17 +42,17 @@ app.post("/tweets", (req, res) => {
         return res.status(400).send("Todos os campos são obrigatórios!")
     }
 
-    const user = users.find( (user) => user.username === username)
+    const userpost = users.find( (user) => user.username === username)
 
-    const tweet = {
+    const newTweet = {
         
             username: username,
-            avatar: user.avatar,
-            tweet: message
+            avatar: userpost.avatar,
+            tweet: tweet
         
     }
 
-    tweets.push(tweet);
+    tweets.push(newTweet);
     res.status(201).send("OK")
 })
 
