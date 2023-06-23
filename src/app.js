@@ -12,7 +12,7 @@ const users = [];
 app.post("/sign-up", (req, res) => {
     let {username, avatar} = req.body;
 
-    if (!newUser.username || !newUser.avatar) {
+    if (!username || !avatar) {
 		
         return res.status(400).send("Todos os campos são obrigatórios!")
 	}
@@ -29,7 +29,13 @@ app.post("/sign-up", (req, res) => {
 app.post("/tweets", (req, res) => {
     let {username , message} = req.body;
 
-    if (!tweet.username || !tweet.tweet) {
+    if (users.length === 0) {
+		return res.status(401).send({
+			message: 'UNAUTHORIZED'
+		});
+	}
+
+    if (!username || !tweet) {
         return res.status(400).send("Todos os campos são obrigatórios!")
     }
 
