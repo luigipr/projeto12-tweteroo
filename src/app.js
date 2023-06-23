@@ -51,19 +51,20 @@ app.post("/tweets", (req, res) => {
             tweet: tweet
         
     }
-
+    console.log (newTweet)
     tweets.push(newTweet);
     res.status(201).send("OK")
 })
 
 app.get("/tweets", (req, res) => {
 
+
     if (tweets.length === 0) {
         return res.status(200).send([])
     }
 
     if(tweets.length <= 10) {
-        tweetsList = tweets.reverse().map( tweet => ({
+        const tweetsList = tweets.reverse().map( tweet => ({
             username: tweet.username,
             avatar: tweet.avatar,
             tweet: tweet.text
