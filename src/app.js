@@ -47,8 +47,8 @@ app.post("/tweets", (req, res) => {
     const newTweet = {
         
             username: username,
-            avatar: userpost.avatar,
-            tweet: tweet
+            tweet: tweet,
+            avatar: userpost.avatar,            
         
     }
     console.log (newTweet)
@@ -66,7 +66,7 @@ app.get("/tweets", (req, res) => {
     if(tweets.length <= 10) {
         const tweetsList = tweets.reverse().map( tweet => ({
             username: tweet.username,
-            tweet: tweet.text,
+            tweet: tweet.tweet,
             avatar: tweet.avatar
             
         }))
@@ -76,7 +76,7 @@ app.get("/tweets", (req, res) => {
     if( tweets.length > 10) {
     const tweetsList = tweets.reverse().slice(0,10).map( tweet => ({
         username: tweet.username,
-        tweet: tweet.text,
+        tweet: tweet.tweet,
         avatar: tweet.avatar
     }))
     return res.status(200).send(tweetsList)    
@@ -86,13 +86,12 @@ app.get("/tweets", (req, res) => {
 
 
 app.get("/tweets/:username", (req, res) => {
+  
+    const userTweets = tweets.filter((tweet) => req.params.username === tweet.username);
 
-    if (tweets.length === 0) {
+    if (userTweets.length === 0) {
         return res.status(200).send([])
     }
-
-
-    const userTweets = tweets.filter((tweet) => req.params.username === tweet.username);
 
 	res.status(200).send("OK")
 })
